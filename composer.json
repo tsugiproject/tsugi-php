@@ -3,7 +3,7 @@
     "description": "The PHP Library to build interoperable learning tools",
     "homepage": "http://www.tsugi.org/",
     "type": "library",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
     {
         "name": "csev",
