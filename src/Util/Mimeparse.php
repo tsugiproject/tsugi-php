@@ -165,9 +165,9 @@ class Mimeparse {
      * text/html;level=1, text/html;level=2;q=0.4, *\/*;q=0.5")
      * => 0.7
      *
-     * @param unknown_type $mime_type
-     * @param unknown_type $ranges
-     * @return unknown
+     * @param string $mime_type
+     * @param string $ranges
+     * @return float
      */
     public function quality($mime_type, $ranges) {
       $parsed_ranges = explode(',', $ranges);

@@ -26,9 +26,9 @@ class AesCtr extends Aes {
    *
    * Unicode multi-byte character safe
    *
-   * @param plaintext source text to be encrypted
-   * @param password  the password to use to generate a key
-   * @param nBits     number of bits to be used in the key (128, 192, or 256)
+   * @param string $plaintext source text to be encrypted
+   * @param string $password  the password to use to generate a key
+   * @param int    $nBits     number of bits to be used in the key (128, 192, or 256)
    * @return string   encrypted text
    */
   public static function encrypt($plaintext, $password, $nBits) {
@@ -42,9 +42,9 @@ class AesCtr extends Aes {
    *
    * Unicode multi-byte character safe
    *
-   * @param plaintext source text to be encrypted
-   * @param password  the password to use to generate a key
-   * @param nBits     number of bits to be used in the key (128, 192, or 256)
+   * @param string $plaintext source text to be encrypted
+   * @param string $password  the password to use to generate a key
+   * @param int    $nBits     number of bits to be used in the key (128, 192, or 256)
    * @return string   encrypted text
    */
   // USE ONLY FOR UNIT TESTING!!
@@ -112,9 +112,9 @@ class AesCtr extends Aes {
   /**
    * Decrypt a text encrypted by AES in counter mode of operation
    *
-   * @param ciphertext source text to be decrypted
-   * @param password   the password to use to generate a key
-   * @param nBits      number of bits to be used in the key (128, 192, or 256)
+   * @param string $ciphertext source text to be decrypted
+   * @param string $password   the password to use to generate a key
+   * @param int    $nBits      number of bits to be used in the key (128, 192, or 256)
    * @return string    decrypted text
    */
   public static function decrypt($ciphertext, $password, $nBits) {

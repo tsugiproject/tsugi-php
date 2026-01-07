@@ -18,13 +18,13 @@ use \Tsugi\Google\GoogleClassroom;
 class Result extends Entity {
 
     // Needed to implement the Entity methods
-    protected $TABLE_NAME = "lti_result";
-    protected $PRIMARY_KEY = "result_id";
+    protected string $TABLE_NAME = "lti_result";
+    protected string $PRIMARY_KEY = "result_id";
 
     /**
      * The integer primary key for this link in the 'lti_result' table.
      */
-    public $id;
+    public int|string|null $id = null;
 
     /**
      * The current grade for the user
@@ -254,7 +254,7 @@ class Result extends Entity {
                         // TODO: Think how to make this less chatty if the attempt is forever pointless
                         $msg = "No title found for result $result_id - cannot create lineItem";
                         error_log($msg);
-                        if ( is_array($debug_log) )  $debug_log[] = msg;
+                        if ( is_array($debug_log) )  $debug_log[] = $msg;
                     }
                     $msg = "Found link title for result $result_id: $title";
                     if ( is_array($debug_log) )  $debug_log[] = $msg;
@@ -265,7 +265,7 @@ class Result extends Entity {
                 }
             }
 
-            if ( empty($lti13_lineitem) && !empty($title) && !empty($lti13_lineitems) ) {
+            if ( empty($lti13_lineitem) && !empty($title) ) {
                 $msg = "Creating LineItem for result $result_id title '$title' lineitems url=$lti13_lineitems";
                 error_log($msg);
                 if ( is_array($debug_log) )  $debug_log[] = $msg;
@@ -480,7 +480,7 @@ class Result extends Entity {
      *
      * @param $user_id The primary key of the user (instructor only)
      *
-     * @return The JSON string (unparsed)
+     * @return string|false The JSON string (unparsed)
      */
     public function getJsonForUser($user_id) {
         global $CFG, $PDOX;
@@ -502,7 +502,6 @@ class Result extends Entity {
             $json_str = $row['json'];
             return $json_str;
         } else {
-            return false;
             http_response_code(403);
             die();
         }
@@ -515,7 +514,7 @@ class Result extends Entity {
      * @param $default The default value (optional)
      * @param $user_id The primary key of the user (instructor only)
      *
-     * @return The value of the JSON key (parsed)
+     * @return mixed The value of the JSON key (parsed)
      */
     public function getJsonKeyForUser($key, $default=false, $user_id=false) {
         global $CFG, $PDOX;
@@ -530,7 +529,6 @@ class Result extends Entity {
             if ( isset($json->{$key}) ) return $json->{$key};
             return $default;
         } else {
-            return false;
             http_response_code(403);
             die();
         }
@@ -542,12 +540,12 @@ class Result extends Entity {
      * @param $json_str The JSON String
      * @param $user_id The primary key of the user (instructor only)
      *
-     * @return The annotation array
+     * @return void
      */
     public function setJsonForUser($json_str, $user_id=false) {
         global $CFG, $PDOX;
         if ( ! $this->launch->user->instructor || ! $user_id || $user_id == $this->launch->user->id ){
-            $retval = $this->setJson($json_str);
+            $this->setJson($json_str);
         } else if ( $this->launch->user->instructor ) {
             $p = $CFG->dbprefix;
             $stmt = $PDOX->queryDie(
@@ -572,7 +570,7 @@ class Result extends Entity {
      * @param $value The value to store in the JSON
      * @param $user_id The primary key of the user (instructor only)
      *
-     * @return The annotation array
+     * @return void
      */
     public function setJsonKeyForUser($key, $value, $user_id=false) {
         global $CFG, $PDOX;
@@ -590,7 +588,7 @@ class Result extends Entity {
      *
      * @param $user_id The primary key of the user (instructor only)
      *
-     * @return The annotation array
+     * @return string
      */
     public function getNote($user_id=false) {
         global $CFG;
@@ -619,7 +617,6 @@ class Result extends Entity {
             $note_str = is_array($row) ? $row['note'] : "";
             return $note_str;
         } else {
-            return false;
             http_response_code(403);
             die();
         }
@@ -631,7 +628,7 @@ class Result extends Entity {
      * @param $note_str The Note String
      * @param $user_id The primary key of the user (instructor only)
      *
-     * @return The annotation array
+     * @return void
      */
     public function setNote($note_str, $user_id=false) {
         global $CFG;

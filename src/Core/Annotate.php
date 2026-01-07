@@ -15,7 +15,7 @@ class Annotate {
      * @param $LAUNCH The current launch
      * @param $user_id The primary key of the user in question
      *
-     * @return The annotation array
+     * @return array The annotation array
      */
     public static function loadAnnotations($LAUNCH, $user_id) {
         global $CFG, $PDOX;
@@ -70,4 +70,3 @@ class Annotate {
     }
 
 }
-

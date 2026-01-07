@@ -25,6 +25,7 @@ class GoogleLogin {
     public $access_token = false;
     public $last_response = false;
     public $authentication_object = false;
+    public $Google_RefreshToken = false;
 
     public function __construct($client_id, $client_secret, $redirect, $openid_realm=false) {
         $this->client_id = $client_id;

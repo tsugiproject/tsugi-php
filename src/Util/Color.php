@@ -29,10 +29,12 @@ class Color
     /**
      * Convert a RGB to hex
      * 
-     * @param  string $hex  #BADA55
-     * @return array        [186, 218, 85]
+     * @param  int|array<int,int> $r
+     * @param  int $g
+     * @param  int $b
+     * @return string       #BADA55
      */
-    public static function hex ($r, $g = false, $b=false)
+    public static function hex ($r, $g = 0, $b=0)
     {
         if ( is_array($r) ) {
             $b = $r[2];
@@ -45,12 +47,12 @@ class Color
     /**
      * Calculate the relative luminance of an RGB color.
      * 
-     * @param  int $r
+     * @param  int|array<int,int> $r
      * @param  int $g
      * @param  int $b
      * @return float
      */
-    public static function luminance ($r, $g=false, $b=false) {
+    public static function luminance ($r, $g=0, $b=0) {
         if ( is_array($r) ) {
             $b = $r[2];
             $g = $r[1];

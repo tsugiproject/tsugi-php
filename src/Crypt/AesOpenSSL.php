@@ -24,9 +24,9 @@ class AesOpenSSL {
   /**
    * Unicode multi-byte character safe
    *
-   * @param plaintext source text to be encrypted
-   * @param password  the password to use to generate a key
-   * @param nBits     (ignored - always set to 256)
+   * @param string $plaintext source text to be encrypted
+   * @param string $password  the password to use to generate a key
+   * @param int    $nBits     (ignored - always set to 256)
    * @return string   encrypted text
    */
   public static function encrypt($plaintext, $password, $nBits=256) {
@@ -47,9 +47,9 @@ class AesOpenSSL {
   /**
    * Decrypt a text encrypted by AES in counter mode of operation
    *
-   * @param ciphertext source text to be decrypted
-   * @param password   the password to use to generate a key
-   * @param nBits     (ignored - always set to 256)
+   * @param string $ciphertext source text to be decrypted
+   * @param string $password   the password to use to generate a key
+   * @param int    $nBits      (ignored - always set to 256)
    * @return string    decrypted text
    */
   public static function decrypt($ciphertext, $password, $nBits=256) {
@@ -65,27 +65,6 @@ class AesOpenSSL {
     if (!hash_equals(hash_hmac('sha256', $ciphertext . $iv, $key, true), $hash)) return null;
 
     return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $iv);
-  }
-
-
-  /*
-   * Unsigned right shift function, since PHP has neither >>> operator nor unsigned ints
-   *
-   * @param a  number to be shifted (32-bit integer)
-   * @param b  number of bits to shift a to the right (0..31)
-   * @return integer  a right-shifted and zero-filled by b bits
-   */
-  private static function urs($a, $b) {
-echo("a ".gettype($a)."\n");
-echo("b ".gettype($b)."\n");
-    $a &= 0xffffffff; $b &= 0x1f;  // (bounds check)
-    if ($a&0x80000000 && $b>0) {   // if left-most bit set
-      $a = ($a>>1) & 0x7fffffff;   //   right-shift one bit & clear left-most bit
-      $a = $a >> ($b-1);           //   remaining right-shifts
-    } else {                       // otherwise
-      $a = ($a>>$b);               //   use normal right-shift
-    }
-    return $a;
   }
 
 }

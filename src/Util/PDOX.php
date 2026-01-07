@@ -95,7 +95,7 @@ class PDOX extends \PDO {
      * @param $sql The SQL to execute in a string.
      * @param $arr An optional array of the substitition values if needed by the query
      * @param $error_log Indicates whether or not errors are to be logged. Default is TRUE.
-     * @return \PDOStatement  This is either the real PDOStatement from the prepare() call
+     * @return \Tsugi\Util\PDOXStatement  This is either the real PDOStatement from the prepare() call
      * or a stdClass mocked to have error indications as described above.
      */
     function queryReturnError($sql, $arr=FALSE, $error_log=TRUE) {
@@ -158,7 +158,9 @@ class PDOX extends \PDO {
             $message = $e->getMessage();
             if ( $error_log ) error_log($message);
         }
-        if ( ! is_object($q) ) $q = new PDOXStatement();
+        if ( ! $q instanceof PDOXStatement ) {
+            $q = new PDOXStatement();
+        }
         $q->success = $success;
         if ( self::isInsertStatement($sql) && $q->success ) $this->PDOX_LastInsertStatement = $q;
         $q->ellapsed_time = microtime(true)-$start;
@@ -192,7 +194,7 @@ class PDOX extends \PDO {
      * @param $sql The SQL to execute in a string.  If the SQL is badly formed this function will die.
      * @param $arr An optional array of the substitition values if needed by the query
      * @param $error_log Indicates whether or not errors are to be logged. Default is TRUE.
-     * @return \PDOStatement  This is either the real PDOStatement from the prepare() call
+     * @return \Tsugi\Util\PDOXStatement  This is either the real PDOStatement from the prepare() call
      * or a stdClass mocked to have error indications as described above.
      */
     function queryDie($sql, $arr=FALSE, $error_log=TRUE) {
@@ -651,7 +653,7 @@ class PDOX extends \PDO {
      * @param $sql The SQL to execute in a string.
      * @param $arr An optional array of the substitition values if needed by the query
      * @param $error_log Indicates whether or not errors are to be logged. Default is True.
-     * @return \PDOStatement  This is either the real PDOStatement from the prepare() call
+     * @return \Tsugi\Util\PDOXStatement  This is either the real PDOStatement from the prepare() call
      * or a stdClass mocked to have error indications as in queryReturnError().
      *
      * Usage (# are actually slashes - C comment style):
@@ -877,6 +879,8 @@ class PDOX extends \PDO {
 
             return $retval;
         }
+
+        return self::queryReturnErrorInternal($sql, $values, $error_log);
     }
 
     /**
@@ -913,8 +917,8 @@ class PDOX extends \PDO {
 
     /** limitVars - Filter out substitution variables that are not needed
      * @param $sql The SQL to execute in a string.
-     * @param $arr An optional array of the substitition values if needed by the query
-     * @return An array of the variables that actually can be found in the SQL.
+     * @param array $vars An optional array of the substitution values if needed by the query
+     * @return array The variables that actually can be found in the SQL.
      */
     public static function limitVars($sql, $vars) {
         $retval = array();

@@ -267,11 +267,11 @@ class ContentItem {
     /**
      * addContentItem - Add an Content Item
      *
-     * @param url The launch URL of the tool that is about to be placed
-     * @param title A plain text title of the content-item.
-     * @param text A plain text description of the content-item.
-     * @param icon An image URL of an icon
-     * @param fa_icon The class name of a FontAwesome icon
+     * @param string $url The launch URL of the tool that is about to be placed
+     * @param string|false $title A plain text title of the content-item.
+     * @param string|false $text A plain text description of the content-item.
+     * @param string|false $icon An image URL of an icon
+     * @param string|false $fa_icon The class name of a FontAwesome icon
      *
      */
    public function addContentItem($url, $title=false, $text=false,
@@ -365,9 +365,9 @@ class ContentItem {
     /**
      * addFileItem - Add an File Item
      *
-     * @param url The launch URL of the tool that is about to be placed
-     * @param title A plain text title of the content-item.
-     * @params additionalParams Array of configurable parameters for LTI placement (options: presentationDocumentTarget, placementWidth, placementHeight)
+     * @param string $url The launch URL of the tool that is about to be placed
+     * @param string|false $title A plain text title of the content-item.
+     * @param array $additionalParams Array of configurable parameters for LTI placement (options: presentationDocumentTarget, placementWidth, placementHeight)
      *
      */
     public function addFileItem($url, $title=false, $additionalParams = array())

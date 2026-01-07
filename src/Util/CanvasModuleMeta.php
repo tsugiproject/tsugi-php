@@ -66,7 +66,7 @@ class CanvasModuleMeta extends \Tsugi\Util\TsugiDOM {
      * "Week 1", etc and the second level is "Reading 1" etc.   The identifier
      * on the module tag needs to be the same as the "Week 1" identifier.
      *
-     * @return the DOMNode of the items tag within the newly added module
+     * @return \DOMNode The items tag within the newly added module
      */
 
     public function add_module($title, $identifier) {
@@ -105,7 +105,7 @@ class CanvasModuleMeta extends \Tsugi\Util\TsugiDOM {
      * "Week 1", etc and the second level is "Reading 1" etc.   The identifier
      * and identifierref need to be the same as the "Reading 1" identifier.
      *
-     * @return the DOMNode of the newly added item
+     * @return \DOMNode The newly added item
      */
     public function add_item($items, $identifier, $children=null) {
         $this->item_position++;
@@ -147,7 +147,7 @@ class CanvasModuleMeta extends \Tsugi\Util\TsugiDOM {
                 // "title" => 'New TAB',
                 // "url" => 'https://www.dr-chuck.com/',
                 // "identifierref" => 'g700b708061f61c7751d0b29228c7344c',
-                "content_type" => self::Content_Type_ExternalUrl,
+                "content_type" => self::content_type_ExternalUrl,
                 "workflow_state" => 'active',
                 "position" => '1',
                 "new_tab" => 'true',

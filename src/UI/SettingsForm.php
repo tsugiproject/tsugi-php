@@ -202,8 +202,8 @@ class SettingsForm {
      *
      *
      * @param string $name  The name of the setting value
-     * @param string $default  What to display as the first entry in the drop down
-     * @param array $fields  The options to provide for the user (required)
+     * @param string|false $default  What to display as the first entry in the drop down
+     * @param array|false $fields  The options to provide for the user (required)
      */
     public static function select($name, $default=false, $fields=false)
     {

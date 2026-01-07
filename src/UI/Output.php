@@ -109,6 +109,7 @@ class Output {
         ob_end_clean();
         if ( $this->buffer ) return $ob_output;
         echo($ob_output);
+        return false;
     }
 
     /**
@@ -208,6 +209,7 @@ body {
         ob_end_clean();
         if ( $this->buffer ) return $ob_output;
         echo($ob_output);
+        return false;
     }
 
     /**
@@ -329,6 +331,7 @@ if (window!=window.top) {
         ob_end_clean();
         if ( $this->buffer ) return $ob_output;
         echo($ob_output);
+        return false;
     }
 
     /**
@@ -360,6 +363,7 @@ if (window!=window.top) {
         ob_end_clean();
         if ( $this->buffer ) return $ob_output;
         echo($ob_output);
+        return false;
     }
 
     function pageTitle($title, $show_help = false, $show_settings = false) {

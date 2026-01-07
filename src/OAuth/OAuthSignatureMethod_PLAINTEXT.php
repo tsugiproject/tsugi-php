@@ -8,7 +8,7 @@ class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod {
     return "PLAINTEXT";
   }
 
-  public function build_signature($request, $consumer, $token) {
+  public function build_signature(&$request, $consumer, $token) {
     $sig = array(
       OAuthUtil::urlencode_rfc3986($consumer->secret)
     );

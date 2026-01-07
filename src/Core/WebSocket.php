@@ -126,7 +126,7 @@ class WebSocket {
      *
      * The token includes the host, link_id, context_id, and user_id
      *
-     * @param string $launch The LTI launch object
+     * @param object $launch The LTI launch object
      *
      * @return string The plaintext token or false if we cannot make a token
      */
@@ -143,7 +143,7 @@ class WebSocket {
     /**
      * Build and sign a token for a particular link_id
      *
-     * @param string $launch The LTI launch object
+     * @param object $launch The LTI launch object
      *
      * @return string The encrypted token or false if we cannot make a token
      */

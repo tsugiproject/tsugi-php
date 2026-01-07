@@ -180,7 +180,7 @@ class Launch {
         $lti = $this->ltiParameterArray();
         if ( ! $lti ) $lti = array(); // Should never happen
         if ( is_array($lti) ) $lti[$varname] = $value;
-        $lti = $this->session_put('lti', $lti);
+        $this->session_put('lti', $lti);
     }
 
     /**

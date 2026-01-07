@@ -2,8 +2,6 @@
 
 namespace Tsugi\UI;
 
-use \Tsugi\UI\MenuEntry;
-
 /**
  * Our class to generate menus
  */

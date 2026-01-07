@@ -645,12 +645,13 @@ class BlobUtil {
         }
         // error_log("No row for $file_sha256");
 
-        $lob = false;
         $stmt = $PDOX->prepare("SELECT content FROM {$CFG->dbprefix}blob_file WHERE file_id = :ID");
         $stmt->execute(array(":ID" => $file_id));
-        $stmt->bindColumn(1, $lob, \PDO::PARAM_LOB);
-        $stmt->fetch(\PDO::FETCH_BOUND);
+        $lob = $stmt->fetchColumn();
 
+        if ( is_resource($lob) ) {
+            $lob = stream_get_contents($lob);
+        }
         if ( ! is_string($lob) ) {
             $retval = "Error: LOB is not string fid=$file_id sha=$file_sha256";
             error_log($retval);
@@ -719,20 +720,21 @@ class BlobUtil {
         if ( ! $blob_id ) {
             // Cope gracefully when there is no content column in blob_file
             try {
-                $lstmt = $PDOX->prepare("SELECT content FROM {$CFG->dbprefix}blob_file WHERE file_id = :ID");
-                $lstmt->execute(array(":ID" => $file_id));
-                $lstmt->bindColumn(1, $lob, \PDO::PARAM_LOB);
-                $lstmt->fetch(\PDO::FETCH_BOUND);
-            } catch (\Exception $e) {
-                return "Error: No content to migrate for legacy blob file_id=$file_id";
-            }
-        } else {
-            $lstmt = $PDOX->prepare("SELECT content FROM {$CFG->dbprefix}blob_blob WHERE blob_id = :ID");
-            $lstmt->execute(array(":ID" => $blob_id));
-            $lstmt->bindColumn(1, $lob, \PDO::PARAM_LOB);
-            $lstmt->fetch(\PDO::FETCH_BOUND);
+            $lstmt = $PDOX->prepare("SELECT content FROM {$CFG->dbprefix}blob_file WHERE file_id = :ID");
+            $lstmt->execute(array(":ID" => $file_id));
+            $lob = $lstmt->fetchColumn();
+        } catch (\Exception $e) {
+            return "Error: No content to migrate for legacy blob file_id=$file_id";
         }
+    } else {
+        $lstmt = $PDOX->prepare("SELECT content FROM {$CFG->dbprefix}blob_blob WHERE blob_id = :ID");
+        $lstmt->execute(array(":ID" => $blob_id));
+        $lob = $lstmt->fetchColumn();
+    }
 
+        if ( is_resource($lob) ) {
+            $lob = stream_get_contents($lob);
+        }
         if ( ! is_string($lob) ) {
             return "Error: LOB is not a string. fi=$file_id bi=$blob_id";
         }
@@ -761,4 +763,3 @@ class BlobUtil {
     }
 
 }
-

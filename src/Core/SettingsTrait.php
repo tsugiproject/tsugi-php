@@ -34,7 +34,7 @@ trait SettingsTrait {
         } else if ( U::strlen($retval) > 0 ) {
             try {
                 $retval = json_decode($retval, true);
-            } catch(Exception $e) {
+            } catch(\Exception $e) {
                 $retval = array();
             }
         }
@@ -50,7 +50,7 @@ trait SettingsTrait {
         if ( $json === null ) return array();
         try {
             $retval = json_decode($json, true);
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $retval = array();
         }
 

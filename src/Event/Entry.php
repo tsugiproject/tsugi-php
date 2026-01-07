@@ -209,7 +209,7 @@ class Entry {
                 $fewerbuckets[$newoffset] = $oldbuckets[$oldoffset];
             }
             if ( count($oldbuckets)-1 != count($fewerbuckets) ) {
-                throw new Exception('Internal failure during serialization');
+                throw new \Exception('Internal failure during serialization');
             }
             $newstart = $newstart + $firstoffset;
 

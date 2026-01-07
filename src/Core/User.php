@@ -124,7 +124,7 @@ class User {
         if ( $displayname === null ) $displayname = $this->getNameAndEmail();
         if ( $displayname === null ) return null;
         $pieces = explode(' ',$displayname);
-        if ( count($pieces) > 0 ) return $pieces[0];
+        if ( count($pieces) > 0 && $pieces[0] !== '' ) return $pieces[0];
         return null;
     }
 

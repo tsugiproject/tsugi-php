@@ -27,6 +27,9 @@ use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 class Application extends \Laravel\Lumen\Application {
 
+    public ?string $tsugi_path = null;
+    public ?string $tsugi_parent = null;
+
     /**
      * Requires a Tsugi Launch object for initializing.
      *

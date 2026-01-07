@@ -2128,8 +2128,7 @@ class LTIX {
                 self::abort_with_error_log("Session has expired", " ".session_id()." HTTP_USER_AGENT ".
                     (($session_agent !== null ) ? $session_agent : 'Empty Session user agent') .
                     ' ::: '.
-                    (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Empty browser user agent'),
-                false,'DIE:');
+                    (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Empty browser user agent'));
             }
         }
 
@@ -3201,9 +3200,9 @@ class LTIX {
         return "tsugi-state-lti-advantage";
     }
 
-    /** Compute the kid has value from a public key
+    /** Compute the kid hash value from a public key
      *
-     * @param pubkey The public key
+     * @param string $pubkey The public key
      */
     public static function getKidForKey($pubkey) {
         return hash('sha256', trim($pubkey));
@@ -3211,10 +3210,7 @@ class LTIX {
 
     /** Retrieve the context and link ids for a previous installation of the tool, such as
      *  if it were imported from another site during a site import. Returns false, if not.
-     * @return array[
-     *  'context_id' => number,
-     *  'link_id' => number
-     * ] | false
+     * @return array{context_id:int,link_id:int}|false
      */
     public static function getLatestHistoryIds() {
         global $CFG, $LAUNCH, $PDOX;

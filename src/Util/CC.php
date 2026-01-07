@@ -154,7 +154,7 @@ class CC extends \Tsugi\Util\TsugiDOM {
      * @param $title The title of the module
      * @param $parentPath Optional parent path for deterministic ID generation (e.g., "")
      *
-     * @return the DOMNode of the newly added module
+     * @return \DOMNode The newly added module node
      */
     public function add_module($title, $parentPath = '') {
         // Generate deterministic identifier
@@ -191,7 +191,7 @@ class CC extends \Tsugi\Util\TsugiDOM {
      * @param $title The title of the sub module
      * @param $parentPath Optional parent path for deterministic ID generation (auto-detected if not provided)
      *
-     * @return the DOMNode of the newly added sub module
+     * @return \DOMNode The newly added sub-module node
      */
     public function add_sub_module($module, $title, $parentPath = null) {
         // Get parent path if not provided
@@ -301,7 +301,7 @@ class CC extends \Tsugi\Util\TsugiDOM {
      * @param $resourceLinkId Optional resource_link_id for deterministic ID generation
      * @param $parentPath Optional parent path for deterministic ID generation (auto-detected if not provided)
      *
-     * @return The name of a file to contain the lti link XML in the ZIP.
+     * @return string The name of a file to contain the LTI link XML in the ZIP.
      */
     public function add_lti_link($module, $title=null, $url=null, $resourceLinkId=null, $parentPath=null) {
         // Get parent path if not provided
@@ -584,7 +584,7 @@ class CC extends \Tsugi\Util\TsugiDOM {
      * @param $title The title/text of the header
      * @param $parentPath Optional parent path for deterministic ID generation (auto-detected if not provided)
      *
-     * @return The DOMNode of the newly added header item
+     * @return \DOMNode The newly added header item node
      */
     public function add_header_item($module, $title, $parentPath=null) {
         // Get parent path if not provided

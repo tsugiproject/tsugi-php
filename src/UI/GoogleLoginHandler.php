@@ -371,7 +371,7 @@ class GoogleLoginHandler {
             $_SESSION["context_id"] = $context_id;
             $lti["context_id"] = $context_id;
         }
-        if ( isset($context_key) ) {
+        if ( is_string($context_key) && $context_key !== '' ) {
             $_SESSION["context_key"] = $context_key;
             $lti["context_key"] = $context_key;
         }
@@ -383,7 +383,9 @@ class GoogleLoginHandler {
                 $lms_util = $CFG->dirroot . '/lms/lms-util.php';
                 if ( file_exists($lms_util) ) {
                     require_once($lms_util);
-                    $is_instructor = isInstructor();
+                    if ( function_exists('isInstructor') ) {
+                        $is_instructor = isInstructor();
+                    }
                 }
             }
         }
@@ -443,4 +445,3 @@ class GoogleLoginHandler {
         return $glog->getLoginUrl($_SESSION['GOOGLE_STATE']);
     }
 }
-

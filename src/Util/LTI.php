@@ -473,7 +473,7 @@ class LTI {
      * This retrieves a grade using the Plain-Old-XML protocol from
      * IMS LTI 1.1
      *
-     * @param debug_log This can either be false or an empty array.  If
+     * @param array|false $debug_log This can either be false or an empty array.  If
      * this is an array, it is filled with data as the steps progress.
      * Each step is an array with a string message as the first element
      * and optional debug detail (i.e. like a post body) as the second
@@ -545,7 +545,7 @@ class LTI {
                     return $LastPOXGradeError;
                 }
             }
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $LastPOXGradeError = $e->getMessage();
             error_log("Grade read failure: ".$LastPOXGradeError);
             if ( is_array($debug_log) )  $debug_log[] = array("Exception: ".$status);
@@ -560,7 +560,7 @@ class LTI {
      * This sends a grade using the Plain-Old-XML protocol from
      * IMS LTI 1.1
      *
-     * @param debug_log This can either be false or an empty array.  If
+     * @param array|false $debug_log This can either be false or an empty array.  If
      * this is an array, it is filled with data as the steps progress.
      * Each step is an array with a string message as the first element
      * and optional debug detail (i.e. like a post body) as the second
@@ -618,7 +618,7 @@ class LTI {
             } else if ( isset($retval['imsx_description']) ) {
                 $status = $retval['imsx_description'];
             }
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $status = $e->getMessage();
             if ( is_array($debug_log) )  $debug_log[] = array("Exception: ".$status);
         }
@@ -794,10 +794,10 @@ class LTI {
             self::getPOXGradeRequest());
 
         $more_headers=false;
-        $response = sendOAuthBody("POST", $endpoint, $oauth_consumer_key, $oauth_consumer_secret,
+        $response = self::sendOAuthBody("POST", $endpoint, $oauth_consumer_key, $oauth_consumer_secret,
             $content_type, $postBody, $more_headers, $signature);
 
-        return parseResponse($response);
+        return self::parseResponse($response);
     }
 
     public static function parseResponse($response) {
@@ -815,7 +815,7 @@ class LTI {
             $operation = $imsx_body->getName();
             $retval['response'] = $operation;
             $parms = $imsx_body->children();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception('Error: Unable to parse XML response' . $e->getMessage());
         }
 
@@ -823,7 +823,7 @@ class LTI {
            try {
                $retval['language'] =(string) $parms->result->resultScore->language;
                $retval['textString'] = (string) $parms->result->resultScore->textString;
-           } catch (Exception $e) {
+           } catch (\Exception $e) {
                 throw new \Exception("Error: Body parse error: ".$e->getMessage());
            }
         }
@@ -833,7 +833,7 @@ class LTI {
     /**
      * Send a grade using the JSON protocol from IMS LTI 2.x
      *
-     * @param debug_log This can either be false or an empty array.  If
+     * @param array|false $debug_log This can either be false or an empty array.  If
      * this is an array, it is filled with data as the steps progress.
      * Each step is an array with a string message as the first element
      * and optional debug detail (i.e. like a post body) as the second
@@ -888,7 +888,7 @@ class LTI {
     /**
      * Send setings data using the JSON protocol from IMS LTI 2.x
      *
-     * @param debug_log This can either be false or an empty array.  If
+     * @param array|false $debug_log This can either be false or an empty array.  If
      * this is an array, it is filled with data as the steps progress.
      * Each step is an array with a string message as the first element
      * and optional debug detail (i.e. like a post body) as the second
@@ -927,7 +927,7 @@ class LTI {
     /**
      * Send a JSON body LTI 2.x Style
      *
-     * @param debug_log This can either be false or an empty array.  If
+     * @param array|false $debug_log This can either be false or an empty array.  If
      * this is an array, it is filled with data as the steps progress.
      * Each step is an array with a string message as the first element
      * and optional debug detail (i.e. like a post body) as the second
@@ -977,11 +977,11 @@ class LTI {
     /**
      * getLtiLinkJson - Get a JSON object for an LTI Link Content Item Return
      *
-     * @param url The launch URL of the tool that is about to be placed
-     * @param title A plain text title of the content-item.
-     * @param text A plain text description of the content-item.
-     * @param icon An image URL of an icon
-     * @param fa_icon The class name of a FontAwesome icon
+     * @param string $url The launch URL of the tool that is about to be placed
+     * @param string|false $title A plain text title of the content-item.
+     * @param string|false $text A plain text description of the content-item.
+     * @param string|false $icon An image URL of an icon
+     * @param string|false $fa_icon The class name of a FontAwesome icon
      *
      */
     public static function getLtiLinkJSON($url, $title=false, $text=false,

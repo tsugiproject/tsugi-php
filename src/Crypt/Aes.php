@@ -13,8 +13,8 @@ class Aes {
   /**
    * AES Cipher function: encrypt 'input' with Rijndael algorithm
    *
-   * @param input message as byte-array (16 bytes)
-   * @param w     key schedule as 2D byte-array (Nr+1 x Nb bytes) -
+   * @param array $input message as byte-array (16 bytes)
+   * @param array $w     key schedule as 2D byte-array (Nr+1 x Nb bytes) -
    *              generated from the cipher key by keyExpansion()
    * @return array     ciphertext as byte-array (16 bytes)
    */
@@ -88,7 +88,7 @@ class Aes {
    * Key expansion for Rijndael cipher(): performs key expansion on cipher key
    * to generate a key schedule
    *
-   * @param key cipher key byte-array (16 bytes)
+   * @param array $key cipher key byte-array (16 bytes)
    * @return array   key schedule as 2D byte-array (Nr+1 x Nb bytes)
    */
   public static function keyExpansion($key) {  // generate Key Schedule from Cipher Key [§5.2]

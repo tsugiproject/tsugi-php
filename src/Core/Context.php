@@ -24,8 +24,8 @@ class Context extends Entity {
     // TODO: - $Context->lang - The context language choice.
 
     // Needed to implement the Entity methods
-    protected $TABLE_NAME = "lti_context";
-    protected $PRIMARY_KEY = "context_id";
+    protected string $TABLE_NAME = "lti_context";
+    protected string $PRIMARY_KEY = "context_id";
 
     // Contexts have settings...
     protected $ENTITY_NAME = "context";
@@ -34,7 +34,7 @@ class Context extends Entity {
     /**
      * The integer primary key for this context in the 'lti_context' table.
      */
-    public $id;
+    public int|string|null $id = null;
 
     /**
      * The context title
@@ -192,7 +192,7 @@ class Context extends Entity {
      * was an error
      * @param string $lti13_lineitems The url for the LineItems Service if there
      * was no error
-     * @param array $debug_log If this is an array, debug information is returned as the
+     * @param array|false $debug_log If this is an array, debug information is returned as the
      * process progresses.
      *
      * @return mixed If there is an error, this returns false and $missing has the detail
@@ -334,7 +334,7 @@ class Context extends Entity {
      * @param string $missing This is a non-empty string with error detail if there
      * was an error
      * @param string $subject The subject if there is no error
-     * @param array $debug_log If this is an array, debug information is returned as the
+     * @param array|false $debug_log If this is an array, debug information is returned as the
      * process progresses.
      *
      * @return mixed If there is an error, this returns false and $missing has the detail

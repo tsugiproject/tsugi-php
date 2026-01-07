@@ -18,7 +18,7 @@ class ExceptionHandler extends \Laravel\Lumen\Exceptions\Handler {
     /**
      * Indicate an exception that should not be reported
      *
-     * @param  string type
+     * @param  string $type
      * @return void
      */
     public function pleaseDontReport($type)
@@ -53,4 +53,3 @@ class ExceptionHandler extends \Laravel\Lumen\Exceptions\Handler {
         return parent::render($request, $e);
     }
 }
-

@@ -276,7 +276,7 @@ class Lessons {
                 $count++;
                 if ( $anchor !== null && isset($mod->anchor) && $anchor != $mod->anchor ) continue;
                 if ( $index !== null && $index != $count ) continue;
-                if ( $anchor == null && isset($module->anchor) ) $anchor = $module->anchor;
+                if ( $anchor == null && isset($mod->anchor) ) $anchor = $mod->anchor;
                 $this->module = $mod;
                 $this->position = $count;
                 if ( $mod->anchor ) $this->anchor = $mod->anchor;

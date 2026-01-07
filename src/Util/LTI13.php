@@ -81,9 +81,11 @@ class LTI13 {
     /**
      * Pull out the issuer_key from a JWT
      *
-     * @param string $jwt The parsed JWT
+     * @param object $jwt The parsed JWT
+     * @return string|false The issuer_key or false if unavailable
      */
     public static function extract_issuer_key($jwt) {
+        if ( ! is_object($jwt) || ! isset($jwt->body->iss) ) return false;
         $retval = self::extract_issuer_key_string($jwt->body->iss);
         return $retval;
     }
@@ -91,7 +93,7 @@ class LTI13 {
     /**
      * Pull out the composite issuer_key from issuer and audience
      *
-     * @param string $jwt The parsed JWT
+     * @param string $issuer The issuer
      */
     public static function extract_issuer_key_string($issuer) {
         $retval = U::lti_sha256($issuer);
@@ -100,7 +102,7 @@ class LTI13 {
     /**
      * Find the JWT in the request data
      *
-     * @param array $request_data An optional prarameter if you want to pull the
+     * @param array|false $request_data An optional parameter if you want to pull the
      * data from somewhere other than $_REQUEST.
      *
      * @return string The JWT from the request or false if there is no JWT.
@@ -148,7 +150,7 @@ class LTI13 {
     /**
      * Print out the contents of the JWT
      *
-     * @param object The parsed JWT object.
+     * @param object $jwt The parsed JWT object.
      *
      * @return string The output of the JWT suitable for printing (escaping needed)
      */
@@ -169,10 +171,10 @@ class LTI13 {
     /**
      * Returns true if this is an LTI 1.3 message with minimum values to meet the protocol
      *
-     * @param array $request_data An optional prarameter if you want to pull the
+     * @param array|false $request_data An optional parameter if you want to pull the
      * data from somewhere other than $_REQUEST.
      *
-     * @return Returns true if this has a valid JWT, false if this is not a JWT at all,
+     * @return bool|string Returns true if this has a valid JWT, false if this is not a JWT at all,
      * or a string with an error message if this parses as a JWT but is missing required data.
      */
     public static function isRequestDetail($request_data=false) {
@@ -188,10 +190,10 @@ class LTI13 {
     /**
      * Returns true if this is an LTI 1.3 message with minimum values to meet the protocol
      *
-     * @param array $request_data An optional prarameter if you want to pull the
+     * @param array|false $request_data An optional parameter if you want to pull the
      * data from somewhere other than $_REQUEST.
      *
-     * @return Returns true if this has a valid JWT, false if this is not a JWT at all.
+     * @return bool Returns true if this has a valid JWT, false if this is not a JWT at all.
      */
     public static function isRequest($request_data=false) {
         $retval = self::isRequestDetail($request_data);
@@ -207,7 +209,7 @@ class LTI13 {
      *
      * @param string $raw_jwt The raw JWT from the request
      * @param string $public_key The public key
-     * @param string $algs The algorithm to use for validating the key.
+     * @param string|array|false $algs The algorithm(s) to use for validating the key.
      *
      * @return mixed This returns true if the request verified.  If the request did not verify,
      * this returns the exception that was generated.
@@ -324,7 +326,7 @@ class LTI13 {
 
     /** Retrieve a grade token
      *
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed Returns the token (string) or false on error.
@@ -343,7 +345,7 @@ class LTI13 {
 
     /** Retrieve a Names and Roles Provisioning Service (NRPS) token
      *
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed Returns the token (string) or false on error.
@@ -362,7 +364,7 @@ class LTI13 {
      * This should require both the lineitems and grade permission I think.   But some clarification
      * is needed to make sure this is done correctly.
      *
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed Returns the token (string) or false on error.
@@ -380,7 +382,7 @@ class LTI13 {
 
     /** Retrieve a Course Group Service token
      *
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed Returns the token (string) or false on error.
@@ -396,7 +398,7 @@ class LTI13 {
 
     /** Retrieve a LineItems token
      *
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed Returns the token (string) or false on error.
@@ -417,8 +419,8 @@ class LTI13 {
      * @param $comment An optional comment
      * @param $lineitem_url The REST endpoint (id) for this line item
      * @param $access_token The access token for this request
-     * @param array $extra A set of key value extensions to be added/replaced in the request
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $extra A set of key value extensions to be added/replaced in the request
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed Returns the token (string) or false on error.
@@ -505,7 +507,7 @@ class LTI13 {
      *
      * @param string $membership_url The REST endpoint for memberships
      * @param $access_token The access token for this request
-     * @param array $debug_log If this is an array, debug information is returned as the
+     * @param array|false $debug_log If this is an array, debug information is returned as the
      * process progresses.
      *
      * @return mixed If this works it returns the NRPS object.  If it fails,
@@ -605,7 +607,7 @@ class LTI13 {
      *
      * @param string $context_groups_url The REST endpoint for memberships
      * @param $access_token The access token for this request
-     * @param array $debug_log If this is an array, debug information is returned as the
+     * @param array|false $debug_log If this is an array, debug information is returned as the
      * process progresses.
      *
      * @return mixed If this works it returns the NRPS object.  If it fails,
@@ -1006,7 +1008,7 @@ class LTI13 {
      *
      * @param $lineitem_url The REST endpoint (id) for this line item
      * @param $access_token The access token for this request
-     * @param object $newitem The fields to update
+     * @param object $lineitem The fields to update
      *
      *     $newitem = new \stdClass();
      *     $newitem->scoreMaximum = 100;
@@ -1014,7 +1016,7 @@ class LTI13 {
      *     $newitem->resourceId = '2987487943';
      *     $newitem->tag = 'optional';
      *
-     * @param $debug_log Returns a log of actions taken
+     * @param array|false $debug_log Returns a log of actions taken
      *
      * @return mixed If this works it returns true.  If it fails, it returns a string.
      */
@@ -1059,15 +1061,15 @@ class LTI13 {
 
     /** Retrieve an access token
      *
-     * @param array $scope A list of requested scopes
+     * @param array|string $scope A list of requested scopes
      * @param string $subject Who we are (client id in OAuth)
      * @param string $lti13_token_url
      * @param string $lti13_privkey
-     * @param string $lti13_kid The optional kid to include in the JWT
-     * @param string $deployment_id The optional deployment_id to include in the JWT
-     * @param string $lti13_token_audience The optional value for token audience.  If not
+     * @param string|false $lti13_kid The optional kid to include in the JWT
+     * @param string|false $deployment_id The optional deployment_id to include in the JWT
+     * @param string|false $lti13_token_audience The optional value for token audience.  If not
      * provided, use the $lti13_token_url.
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * Note - the idea of lti13_token_audience came in the following PR
@@ -1140,7 +1142,7 @@ class LTI13 {
      *
      * @param array $token_data The JSON response to a token request, parsed in an array
      * of key / value pairs.
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return mixed This returns the token as a string if it is successful, or false
@@ -1170,7 +1172,7 @@ class LTI13 {
      *
      * @param string $issuer Who we are
      * @param string $subject Who we are
-     * @param array $debug_log An optional array passed by reference.   Actions taken will be
+     * @param array|false $debug_log An optional array passed by reference.   Actions taken will be
      * logged into this array.
      *
      * @return array The basic fields of the JWT are populated
@@ -1194,7 +1196,7 @@ class LTI13 {
      *
      * @param array $jwt_claim An array of key/value pairs for the claims
      * @param string $lti13_privkey The private key to use to sign the JWT
-     * @param string $lti13_kid The key id to include in the JWT (optional)
+     * @param string|false $lti13_kid The key id to include in the JWT (optional)
      *
      * @return string The signed JWT
      */
@@ -1215,9 +1217,9 @@ class LTI13 {
      *
      * @param string $launch_url The URL to send the JWT
      * @param string $jws The signed JWT
-     * @param boolean dodebug Whether to auto submit the JWT or pause with some
+     * @param bool $dodebug Whether to auto submit the JWT or pause with some
      * debugging output.
-     * @param array $extra some extra/optional parameters
+     * @param array|false $extra some extra/optional parameters
      *
      *     formattr - Additional text to include within the <form tag
      *     button - The text of the botton (ie. to allow I18N)
@@ -1266,7 +1268,7 @@ class LTI13 {
      * @param string $publicKey Returned public key
      * @param string $privateKey Returned private key
      *
-     * @return string or true If there was an error, we return it, on success return true
+     * @return string|true If there was an error, we return it, on success return true
      */
     // https://stackoverflow.com/questions/6648337/generate-ssh-keypair-form-php
     public static function generatePKCS8Pair(&$publicKey, &$privateKey) {

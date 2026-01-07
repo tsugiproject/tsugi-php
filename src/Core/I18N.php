@@ -22,7 +22,10 @@ class I18N {
      * @param string $message The message to translate
      * @return string The translated message
      */
-    public static function _m($message) {
+    public static function _m($message, $textdomain=false) {
+        if ( $textdomain !== false ) {
+            return self::__($message, $textdomain);
+        }
         return self::__($message, "master");
     }
 
@@ -32,8 +35,8 @@ class I18N {
      * @param string $message The message to translate and echo
      * @return void
      */
-    public static function _me($message) {
-        echo(self::_m($message));
+    public static function _me($message, $textdomain=false) {
+        echo(self::_m($message, $textdomain));
     }
 
     /**
@@ -122,7 +125,7 @@ class I18N {
                 try {
                     // Symfony may implement a stub for this function that throws an exception
                     $locale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-                } catch (exception $e) { }
+                } catch (\Exception $e) { }
             }
             if ($locale === null) { // Crude fallback if we can't use Locale::acceptFromHttp
                 $pieces = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);

@@ -65,7 +65,13 @@ class Caliper {
    }
  ]
 }');
+        if ( ! is_object($json) ) $json = new \stdClass();
         $json->sendTime = self::getISO8601();
+        if ( ! isset($json->data) || ! is_array($json->data) ) {
+            $json->data = array(new \stdClass());
+        } else if ( ! isset($json->data[0]) || ! is_object($json->data[0]) ) {
+            $json->data[0] = new \stdClass();
+        }
         $json->data[0]->id = uniqid();
         return $json;
     }
@@ -88,6 +94,12 @@ class Caliper {
  "object": "https://example.edu/terms/201601/courses/7/sections/1/resources/123",
  "eventTime": "2004-01-01T06:00:00.000Z",
 }');
+        if ( ! is_object($json) ) $json = new \stdClass();
+        if ( ! isset($json->data) || ! is_array($json->data) ) {
+            $json->data = array(new \stdClass());
+        } else if ( ! isset($json->data[0]) || ! is_object($json->data[0]) ) {
+            $json->data[0] = new \stdClass();
+        }
         $json->data[0]->id = uniqid();
         return $json;
     }
@@ -185,4 +197,3 @@ https://www.imsglobal.org/sites/default/files/caliper/v1p1/caliper-spec-v1p1/cal
     "startedAtTime": "2018-11-15T10:00:00.000Z"
   }
 */
-

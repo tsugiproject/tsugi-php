@@ -20,8 +20,8 @@ use \Tsugi\Util\LTI13;
 class Key extends Entity {
 
     // Needed to implement the Entity methods
-    protected $TABLE_NAME = "lti_key";
-    protected $PRIMARY_KEY = "key_id";
+    protected string $TABLE_NAME = "lti_key";
+    protected string $PRIMARY_KEY = "key_id";
 
     // Contexts have settings...
     protected $ENTITY_NAME = "key";
@@ -30,7 +30,7 @@ class Key extends Entity {
     /**
      * The integer primary key for this context in the 'lti_key' table.
      */
-    public $id;
+    public int|string|null $id = null;
 
     /**
      * The key title
