@@ -3135,28 +3135,32 @@ class LTIX {
                 $insertUserArray = [];
                 $insertUserMembershipArray = [];
                 foreach($ROSTER->data as $user) {
-                    array_push($insertUserArray,
-                            "('". $user['user_id'] ."', '".
-                                    lti_sha256($user['user_id']) ."', '".
-                                    $user['user_name'] ."', '".
-                                    $user['user_email'] ."', '".
-                                    ($TSUGI_LAUNCH->context->launch->user->locale ? $TSUGI_LAUNCH->context->launch->user->locale : ''). "', ".
-                                    "'{\"sourcedId\": \"". $user['lis_result_sourcedid'] ."\"}', ".
-                                    $key['key_id'] .", NOW(), NOW() )");
+                    $user_id = $PDOX->quote($user['user_id']);
+                    $user_sha256 = $PDOX->quote(lti_sha256($user['user_id']));
+                    $user_name = $PDOX->quote($user['user_name']);
+                    $user_email = $PDOX->quote($user['user_email']);
+                    $user_locale = $PDOX->quote($TSUGI_LAUNCH->context->launch->user->locale ? $TSUGI_LAUNCH->context->launch->user->locale : '');
+                    $user_role = ($user['role'] == "Instructor" ? LTIX::ROLE_INSTRUCTOR : LTIX::ROLE_LEARNER);
+                    $user_json = json_encode(['sourcedId' => $user['lis_result_sourcedid']]);
+                    if ( $user_json === false ) $user_json = '{}';
+                    $user_json = $PDOX->quote($user_json);
 
-                    array_push($insertUserMembershipArray,
-                            "(". $TSUGI_LAUNCH->context->id .", ".
-                                "(select user_id from {$p}lti_user where user_key = '". $user['user_id'] ."' limit 1), ".
-                                    ($user['role'] == "Instructor" ? LTIX::ROLE_INSTRUCTOR : LTIX::ROLE_LEARNER) .", NOW(), NOW() )");
+                    $insertUserArray[] = sprintf('(%s, %s, %s, %s, %s, %s, %d, NOW(), NOW())',
+                        $user_id, $user_sha256, $user_name, $user_email, $user_locale, $user_json, $key['key_id']);
+
+                    $insertUserMembershipArray[] = sprintf('(%d, (select user_id from %slti_user where user_key = %s limit 1), %d, NOW(), NOW())',
+                        $TSUGI_LAUNCH->context->id, $p, $user_id, $user_role);
                 }
-                $PDOX->queryDie($insertUser . implode(',', $insertUserArray)
-                            ." ON DUPLICATE KEY UPDATE "
-                                ." displayname = VALUES(displayname)"
-                                ." ,email = VALUES(email)"
-                                ." ,updated_at = NOW()"
-                                ." ,json = IF(JSON_VALID(json), JSON_SET(json, '$.sourcedId', JSON_EXTRACT(VALUES(json),'$.sourcedId')), VALUES(json))");
-                             //   ." ,json = REPLACE(CONCAT(IFNULL(json,'{}'), VALUES(json)), '}{', ',')");
-                $PDOX->queryDie($insertMembership . implode(',', $insertUserMembershipArray). " ON DUPLICATE KEY UPDATE role = VALUES(role), updated_at=NOW()");
+                if ( count($insertUserArray) > 0 ) {
+                    $PDOX->queryDie($insertUser . implode(',', $insertUserArray)
+                                ." ON DUPLICATE KEY UPDATE "
+                                    ." displayname = VALUES(displayname)"
+                                    ." ,email = VALUES(email)"
+                                    ." ,updated_at = NOW()"
+                                    ." ,json = IF(JSON_VALID(json), JSON_SET(json, '$.sourcedId', JSON_EXTRACT(VALUES(json),'$.sourcedId')), VALUES(json))");
+                                 //   ." ,json = REPLACE(CONCAT(IFNULL(json,'{}'), VALUES(json)), '}{', ',')");
+                    $PDOX->queryDie($insertMembership . implode(',', $insertUserMembershipArray). " ON DUPLICATE KEY UPDATE role = VALUES(role), updated_at=NOW()");
+                }
             } // if insert
         } // if response valid
 
