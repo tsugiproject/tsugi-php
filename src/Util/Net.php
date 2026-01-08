@@ -149,7 +149,7 @@ class Net {
             if ($response === false) {
                 return false;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return $response;
@@ -314,13 +314,13 @@ class Net {
         $LastBODYContent = false;
 
         // Prefer curl because it checks if it works before trying
-        $LastBODYContent = NET::bodyCurl($url, $method, $body, $header);
+        $LastBODYContent = Net::bodyCurl($url, $method, $body, $header);
         $LastBODYImpl = "CURL";
         if ( $LastBODYContent !== false ) return $LastBODYContent;
-        $LastBODYContent = NET::bodySocket($url, $method, $body, $header);
+        $LastBODYContent = Net::bodySocket($url, $method, $body, $header);
         $LastBODYImpl = "Socket";
         if ( $LastBODYContent !== false ) return $LastBODYContent;
-        $LastBODYContent = NET::bodyStream($url, $method, $body, $header);
+        $LastBODYContent = Net::bodyStream($url, $method, $body, $header);
         $LastBODYImpl = "Stream";
         if ( $LastBODYContent !== false ) return $LastBODYContent;
         $LastBODYImpl = "Error";
@@ -381,7 +381,7 @@ class Net {
                 $result=preg_replace($pattern,'',$result);
                 return $result;
             }
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return false;
         }
         return false;
@@ -398,7 +398,7 @@ class Net {
         try {
             $fp = @fopen($url, 'r', false, $ctx);
             $response = @stream_get_contents($fp);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return $response;

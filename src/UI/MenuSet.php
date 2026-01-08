@@ -2,8 +2,6 @@
 
 namespace Tsugi\UI;
 
-use \Tsugi\UI\MenuSet;
-
 /**
  * Our class to capture a set of top menus
  *
@@ -103,7 +101,7 @@ class MenuSet {
      *
      * @param $json_str The menu as exported
      *
-     * @return The MenuSet as parsed or false on error
+     * @return MenuSet|false The MenuSet as parsed or false on error
      */
     public static function import($json_str)
     {
@@ -131,7 +129,7 @@ class MenuSet {
             if ( isset($json->left) && $json->left !== false ) $retval->left = self::importRecurse($json->left, 0);
             if ( isset($json->right) && $json->right !== false ) $retval->right = self::importRecurse($json->right, 0);
             return $retval;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }

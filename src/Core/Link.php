@@ -18,8 +18,8 @@ use \Tsugi\Core\LTIX;
 class Link extends Entity {
 
     // Needed to implement the Entity methods
-    protected $TABLE_NAME = "lti_link";
-    protected $PRIMARY_KEY = "link_id";
+    protected string $TABLE_NAME = "lti_link";
+    protected string $PRIMARY_KEY = "link_id";
 
     // Links have settings...
     protected $ENTITY_NAME = "link";
@@ -28,7 +28,7 @@ class Link extends Entity {
     /**
      * The integer primary key for this link in the 'lti_link' table.
      */
-    public $id;
+    public int|string|null $id = null;
 
     /**
      * The link title

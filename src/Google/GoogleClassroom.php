@@ -53,9 +53,9 @@ class GoogleClassroom {
                 'or you may need to revoke the permission for this app '.
                 '(' . $CFG->servicedesc . ') ' .
                 'at https://myaccount.google.com/u/0/security?pli=1 ' .
-                'and re-establish your connection to Classroom.'.
+                'and re-establish your connection to Classroom.';
             header('Location: '.$CFG->apphome);
-    	return false;
+            return false;
         }
 
         if ( $accessToken ) {
@@ -127,7 +127,7 @@ class GoogleClassroom {
         if ( $accessTokenStr ) {
             $accessToken = json_decode($accessTokenStr, true);
             if ( $accessToken && ! U::get($accessToken, 'refresh_token') ) {
-                destroy_access_token();
+                self::destroy_instructor_token();
                 error_log('Clearing bad access token id='.$_SESSION['id']);
                 error_log($accessTokenStr);
                 $accessTokenStr = false;

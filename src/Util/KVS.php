@@ -344,29 +344,29 @@ class KVS {
             if ( ! is_int($id) ) return "id must be an an integer";
         }
         $uk1 = U::get($data, 'uk1');
-        if ( $uk1 ) {
+        if ( $uk1 !== null ) {
             if ( ! is_string($uk1) ) return "uk1 must be a string";
-            if ( empty($uk1) || U::strlen($uk1) > 150 ) return "uk1 must be no more than 150 characters";
+            if ( $uk1 === '' || U::strlen($uk1) > 150 ) return "uk1 must be no more than 150 characters";
         }
         $sk1 = U::get($data, 'sk1');
-        if ( $sk1 ) {
+        if ( $sk1 !== null ) {
             if ( ! is_string($sk1) ) return "sk1 must be a string";
-            if ( empty($sk1) || U::strlen($sk1) > 75 ) return "sk1 must be no more than 75 characters";
+            if ( $sk1 === '' || U::strlen($sk1) > 75 ) return "sk1 must be no more than 75 characters";
         }
         $tk1 = U::get($data, 'tk1');
-        if ( $tk1 ) {
+        if ( $tk1 !== null ) {
             if ( ! is_string($tk1) ) return "tk1 must be a string";
-            if ( empty($tk1) ) return "tk1 cannot be empty";
+            if ( $tk1 === '' ) return "tk1 cannot be empty";
         }
         $co1 = U::get($data, 'co1');
-        if ( $co1 ) {
+        if ( $co1 !== null ) {
             if ( ! is_string($co1) ) return "co1 must be a string";
-            if ( empty($co1) || U::strlen($co1) > 150 ) return "co1 must be no more than 150 characters";
+            if ( $co1 === '' || U::strlen($co1) > 150 ) return "co1 must be no more than 150 characters";
         }
         $co2 = U::get($data, 'co2');
-        if ( $co2 ) {
+        if ( $co2 !== null ) {
             if ( ! is_string($co2) ) return "co2 must be a string";
-            if ( empty($co2) || U::strlen($co2) > 150 ) return "co2 must be no more than 150 characters";
+            if ( $co2 === '' || U::strlen($co2) > 150 ) return "co2 must be no more than 150 characters";
         }
         return true;
     }

@@ -44,19 +44,20 @@ class PDOXStatement extends \PDOStatement {
     public $errorInfoOverride = null;
     public $PDOX = null;
 
-    protected function __construct() {
+    // Public to allow constructing a fake statement when prepare() fails.
+    public function __construct() {
         // error_log("In PDOXStatement constructor");
     }
 
     public function errorCode() : ?string {
         // error_log("In PDOXStatement errorCode");
-        if ( $this->errorCodeOverride != null ) return $errorCodeOverride;
+        if ( $this->errorCodeOverride != null ) return $this->errorCodeOverride;
         return parent::errorCode();
     }
 
     public function errorInfo() : array {
         // error_log("In PDOXStatement errorInfo");
-        if ( $this->errorInfoOverride != null ) return $errorInfoOverride;
+        if ( $this->errorInfoOverride != null ) return $this->errorInfoOverride;
         return parent::errorInfo();
     }
 }

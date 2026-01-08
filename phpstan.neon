@@ -1,0 +1,71 @@
+parameters:
+    level: 2
+    phpVersion: 80400
+    parallel:
+        maximumNumberOfProcesses: 0
+    scanFiles:
+        - include/setup.php
+        - include/setup_i18n.php
+    paths:
+        - src
+        - util
+        - include
+    excludePaths:
+        - vendor/*
+        - tests/*
+        - docs/*
+        - scripts/*
+        - static/*
+    reportUnmatchedIgnoredErrors: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportPossiblyNonexistentConstantArrayOffset: true
+    checkUninitializedProperties: true
+    checkNullables: true
+    checkExtraArguments: true
+    checkMissingCallableSignature: true
+    checkMaybeUndefinedVariables: false
+    ignoreErrors:
+        - identifier: requireOnce.fileNotFound
+        - identifier: variable.undefined
+        - identifier: class.notFound
+          path: src/Google/GoogleClassroom.php
+
+services:
+    -
+        class: PHPStan\Rules\DeadCode\UnusedPrivateMethodRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: PHPStan\Rules\DeadCode\UnusedPrivateConstantRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: PHPStan\Rules\DeadCode\UnusedPrivatePropertyRule
+        arguments:
+            extensionProvider: @PHPStan\Rules\Properties\ReadWritePropertiesExtensionProvider
+            alwaysWrittenTags: []
+            alwaysReadTags: []
+            checkUninitializedProperties: %checkUninitializedProperties%
+        tags:
+            - phpstan.rules.rule
+    -
+        class: PHPStan\Rules\DeadCode\UnreachableStatementRule
+        tags:
+            - phpstan.rules.rule
+    nonexistentOffsetCheck:
+        class: PHPStan\Rules\Arrays\NonexistentOffsetInArrayDimFetchCheck
+        autowired: false
+        arguments:
+            - @PHPStan\Rules\RuleLevelHelper
+            - %reportMaybes%
+            - %reportPossiblyNonexistentGeneralArrayOffset%
+            - %reportPossiblyNonexistentConstantArrayOffset%
+    nonexistentOffsetRule:
+        class: PHPStan\Rules\Arrays\NonexistentOffsetInArrayDimFetchRule
+        autowired: false
+        arguments:
+            - @PHPStan\Rules\RuleLevelHelper
+            - @nonexistentOffsetCheck
+            - %reportMaybes%
+        tags:
+            - phpstan.rules.rule

@@ -23,6 +23,9 @@ class Entity {
     // protected $TABLE_NAME = "lti_result";
     // protected $PRIMARY_KEY = "result_id";
     // public $id = ...;
+    protected string $TABLE_NAME = '';
+    protected string $PRIMARY_KEY = '';
+    public int|string|null $id = null;
 
     /**
      * A reference to our containing launch

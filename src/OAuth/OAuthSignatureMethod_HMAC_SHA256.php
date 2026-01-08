@@ -8,7 +8,7 @@ class OAuthSignatureMethod_HMAC_SHA256 extends OAuthSignatureMethod {
     return "HMAC-SHA256";
   }
 
-  public function build_signature($request, $consumer, $token) {
+  public function build_signature(&$request, $consumer, $token) {
     global $OAuth_last_computed_signature;
     $OAuth_last_computed_signature = false;
 

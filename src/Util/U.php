@@ -45,7 +45,7 @@ class U {
     }
 
     public static function htmlspec_utf8($string) {
-        if ( is_string($string) ) return htmlspecialchars($string ?? '',ENT_QUOTES,$encoding = 'UTF-8');
+        if ( is_string($string) ) return htmlspecialchars($string,ENT_QUOTES,$encoding = 'UTF-8');
         return $string;
     }
 

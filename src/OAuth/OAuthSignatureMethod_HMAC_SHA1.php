@@ -8,7 +8,7 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
     return "HMAC-SHA1";
   }
 
-  public function build_signature($request, $consumer, $token) {
+  public function build_signature(&$request, $consumer, $token) {
     global $OAuth_last_computed_signature;
     $OAuth_last_computed_signature = false;
 

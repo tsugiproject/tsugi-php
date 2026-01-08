@@ -2,7 +2,6 @@
 
 namespace Tsugi\UI;
 
-use \Tsugi\UI\Menu;
 use \Tsugi\UI\MenuEntry;
 
 /**

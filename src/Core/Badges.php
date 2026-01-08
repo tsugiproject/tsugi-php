@@ -33,19 +33,10 @@ class Badges {
     public static function parseAssertionId($encrypted, $lesson) {
         global $CFG, $PDOX;
         
-        if ( ! function_exists('hex2bin')) {
-            function hex2bin($hexString) {
-                $hexLength = strlen($hexString);
-                if ($hexLength % 2 != 0 || preg_match("/[^\da-fA-F]/",$hexString)) return FALSE;
-                $binString = "";
-                for ($x = 1; $x <= $hexLength/2; $x++) {
-                    $binString .= chr(hexdec(substr($hexString,2 * $x - 2,2)));
-                }
-                return $binString;
-            }
-        }
+        $encrypted_bin = hex2bin($encrypted);
+        if ( $encrypted_bin === false ) return 'Decryption failed';
 
-        $decrypted = \Tsugi\Crypt\AesCtr::decrypt(hex2bin($encrypted), $CFG->badge_encrypt_password, 256);
+        $decrypted = \Tsugi\Crypt\AesCtr::decrypt($encrypted_bin, $CFG->badge_encrypt_password, 256);
         $pieces = explode(':',$decrypted);
 
         if ( count($pieces) != 3 || !is_numeric($pieces[0]) || !is_numeric($pieces[2])) {
@@ -98,7 +89,7 @@ class Badges {
             ? $CFG->badge_issuer_email 
             : self::DEFAULT_ISSUER_EMAIL;
     }
-    
+
     /**
      * Build assertion URL
      * 

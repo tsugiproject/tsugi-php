@@ -23,7 +23,7 @@ class Png {
         $retval = substr($png,0,8);
         $ipos = 8;
         if ($retval != "\x89PNG\x0d\x0a\x1a\x0a")
-            throw new Exception('Is not a valid PNG image');
+            throw new \Exception('Is not a valid PNG image');
 
         // Loop through the chunks. Byte 0-3 is length, Byte 4-7 is type
         $chunkHeader = substr($png,$ipos,8);

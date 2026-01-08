@@ -64,8 +64,8 @@ class Git {
 	 * Accepts a creation path, and, optionally, a source path
 	 *
 	 * @access  public
-	 * @param   string  repository path
-	 * @param   string  directory to source
+	 * @param   string  $repo_path repository path
+	 * @param   string|null  $source directory to source
 	 * @return  GitRepo
 	 */
 	public static function &create($repo_path, $source = null) {
@@ -78,7 +78,7 @@ class Git {
 	 * Accepts a repository path
 	 *
 	 * @access  public
-	 * @param   string  repository path
+	 * @param   string  $repo_path repository path
 	 * @return  GitRepo
 	 */
 	public static function open($repo_path) {
@@ -92,9 +92,9 @@ class Git {
 	 * Accepts a creation path and a remote to clone from
 	 *
 	 * @access  public
-	 * @param   string  repository path
-	 * @param   string  remote source
-	 * @param   string  reference path
+	 * @param   string  $repo_path repository path
+	 * @param   string  $remote remote source
+	 * @param   string|null  $reference reference path
 	 * @return  GitRepo
 	 **/
 	public static function &clone_remote($repo_path, $remote, $reference = null) {
@@ -107,7 +107,7 @@ class Git {
 	 * Accepts a variable
 	 *
 	 * @access  public
-	 * @param   mixed   variable
+	 * @param   mixed   $var variable
 	 * @return  bool
 	 */
 	public static function is_repo($var) {

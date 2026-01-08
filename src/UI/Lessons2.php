@@ -324,7 +324,7 @@ ul.tsugi-lessons-content-list li i.fa {
                 $count++;
                 if ( $anchor !== null && isset($mod->anchor) && $anchor != $mod->anchor ) continue;
                 if ( $index !== null && $index != $count ) continue;
-                if ( $anchor == null && isset($module->anchor) ) $anchor = $module->anchor;
+                if ( $anchor == null && isset($mod->anchor) ) $anchor = $mod->anchor;
                 $this->module = $mod;
                 $this->position = $count;
                 if ( $mod->anchor ) $this->anchor = $mod->anchor;
@@ -1918,7 +1918,7 @@ $(function(){
     /**
      * Render slides item (can be single slide or array)
      */
-    private function renderItemSlides($item, $nostyle=false) {
+    protected function renderItemSlides($item, $nostyle=false) {
         if (isset($item->href) || isset($item->url)) {
             // Single slide
             $this->renderItemSlide($item, $nostyle);

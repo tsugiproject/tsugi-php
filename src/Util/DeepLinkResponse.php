@@ -35,10 +35,9 @@ $text='{
   "https://purl.imsglobal.org/spec/lti-dl/claim/data": "csrftoken:c7fbba78-7b75-46e3-9201-11e6d5f36f53"
 }';
         $this->json = json_decode($text);
-        if ( is_object($this->json) ) return;
-        error_log("Unable to parse JSON");
-        error_log($text);
-        die();
+        if ( ! is_object($this->json) ) {
+            $this->json = new \stdClass();
+        }
     }
 
     /**
@@ -57,15 +56,15 @@ $text='{
     /**
      * addLtiLinkItem - Add an LTI Link Deep Link
      *
-     * @param $url The launch URL of the tool that is about to be placed
-     * @param $title A plain text title of the content-item.
-     * @param $text A plain text description of the content-item.
-     * @param $icon An image URL of an icon
-     * @param $fa_icon The class name of a FontAwesome icon
-     * @param $custom An optional array of custom key / value pairs
-     * @param $scoreMaximum The scoreMaximum if this is an assignment
-     * @param $resourceId The resourceId for the item if it is an assignment
-     * @param array $additionalParms A key/value array of additional values to send
+     * @param string $url The launch URL of the tool that is about to be placed
+     * @param string|false $title A plain text title of the content-item.
+     * @param string|false $text A plain text description of the content-item.
+     * @param string|false $icon An image URL of an icon
+     * @param string|false $fa_icon The class name of a FontAwesome icon
+     * @param array|false $custom An optional array of custom key / value pairs
+     * @param float|false $scoreMaximum The scoreMaximum if this is an assignment
+     * @param string|false $resourceId The resourceId for the item if it is an assignment
+     * @param array $additionalParams A key/value array of additional values to send
      *
      */
     public function addLtiLinkItem($url, $title=false, $text=false,
@@ -94,7 +93,7 @@ $text='{
     /**
      * addLtiLinkItemExtended - Add an LTI Link Content Item
      *
-     * @param $params Key/Value pair of configurable options for content item (see addLtiLinkItem)
+     * @param array $params Key/Value pair of configurable options for content item (see addLtiLinkItem)
      *
      */
     public function addLtiLinkItemExtended($params = array())
@@ -223,11 +222,11 @@ $text='{
     /**
      * addContentItem - Add an Content Item
      *
-     * @param url The launch URL of the tool that is about to be placed
-     * @param title A plain text title of the content-item.
-     * @param text A plain text description of the content-item.
-     * @param icon An image URL of an icon
-     * @param fa_icon The class name of a FontAwesome icon
+     * @param string $url The launch URL of the tool that is about to be placed
+     * @param string|false $title A plain text title of the content-item.
+     * @param string|false $text A plain text description of the content-item.
+     * @param string|false $icon An image URL of an icon
+     * @param string|false $fa_icon The class name of a FontAwesome icon
      *
      */
    public function addContentItem($url, $title=false, $text=false,
@@ -255,7 +254,7 @@ $text='{
     /**
      * addContentItemExtended - Add an Content Item
      *
-         * @param $params Key/Value pair of configurable options for content item (see addContentItem)
+     * @param array $params Key/Value pair of configurable options for content item (see addContentItem)
      *
      */
     public function addContentItemExtended($params = array())
@@ -317,9 +316,9 @@ $text='{
     /**
      * addFileItem - Add an File Item
      *
-     * @param url The launch URL of the tool that is about to be placed
-     * @param title A plain text title of the content-item.
-     * @params additionalParams Array of configurable parameters for LTI placement (options: presentationDocumentTarget, placementWidth, placementHeight)
+     * @param string $url The launch URL of the tool that is about to be placed
+     * @param string|false $title A plain text title of the content-item.
+     * @param array $additionalParams Array of configurable parameters for LTI placement (options: presentationDocumentTarget, placementWidth, placementHeight)
      *
      */
     public function addFileItem($url, $title=false, $additionalParams = array())

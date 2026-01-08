@@ -12,7 +12,7 @@ class Annotate {
     /**
      * Provide the header material to support annotations
      *
-     * @return A string with the text to include
+     * @return string Text to include
      */
     public static function header()
     {
@@ -25,7 +25,7 @@ class Annotate {
      *
      * @param $user_id The user+id for the annotations
      *
-     * @return A string with the text to include
+     * @return string Text to include
      */
     public static function footer($user_id)
     {
