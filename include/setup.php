@@ -43,13 +43,14 @@ function print_stack_trace() {
 
 if ( isset($CFG->upgrading) && $CFG->upgrading === true ) require_once("upgrading.php");
 
-// The vendor include and root
-if ( ! is_string($CFG->vendorroot) ) $CFG->vendorroot = $CFG->wwwroot."/vendor/tsugi/lib/util";
-if ( ! is_string($CFG->vendorinclude) ) $CFG->vendorinclude = $CFG->dirroot."/vendor/tsugi/lib/include";
-if ( ! is_string($CFG->vendorstatic) ) $CFG->vendorstatic = $CFG->dirroot."/vendor/tsugi/lib/static";
 if ( is_string($CFG->staticroot) ) $CFG->staticroot = \Tsugi\Util\U::remove_relative_path($CFG->staticroot);
 
-require_once $CFG->vendorinclude . "/lms_lib.php";
+// Handle both cases: lib in parent directory structure vs standalone lib
+$lms_lib_path = $CFG->dirroot."/lib/include/lms_lib.php";
+if ( !file_exists($lms_lib_path) ) {
+    $lms_lib_path = $CFG->dirroot."/include/lms_lib.php";
+}
+require_once $lms_lib_path;
 
 // Check to see if pre_config was included
 // TODO: Make this a die() about a year after - Thu Nov 11 19:34:23 EST 2021
