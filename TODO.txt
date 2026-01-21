@@ -1,5 +1,0 @@
-
-Move all htmlent_utf8() to htmlentities() since the default is now UTF-8
-
-Remove the non-curl Net code
-

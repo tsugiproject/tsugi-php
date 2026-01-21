@@ -1,8 +1,6 @@
 <?php
+require_once("config.php");
 
-if ( ! isset($CFG) ) return; // Only from within tsugi.php
-
-use \Tsugi\Util\U;
 use \Tsugi\Core\Mail;
 
 $id = false;
@@ -12,7 +10,6 @@ if ( isset($_POST['id']) && isset($_POST['token']) ) {
     $token = $_POST['token'];
     error_log("Unsubscribe: $id, $token");
     echo('You are unsubscribed. Thank you.');
-    // TODO: Actually unsubscribe
     return;
 }
 
@@ -21,7 +18,7 @@ if ( isset($_GET['id']) && isset($_GET['token']) ) {
     $token = $_GET['token'];
 }
 
-if ( U::strlen($token) < 1 ) $token = false;
+if ( strlen($token) < 1 ) $token = false;
 
 if ( $id === false || $token === false ) {
     error_log("Unsubscribe missing id or token");
@@ -65,7 +62,7 @@ if ( isset($_POST['id']) ) {
 <a href="<?php echo($CFG->wwwroot); ?>"><?php echo($CFG->servicename); ?></a> press
 "Unsubscribe" below.
 </p>
-<form method="post" action="unsubscribe">
+<form method="post" action="unsubscribe.php">
   <input type="hidden" name="id" value="<?php echo($id); ?>">
   <input type="hidden" name="token" value="<?php echo(htmlent_utf8($token)); ?>">
   <input type="submit" value="Unsubscribe">

@@ -1,6 +1,6 @@
 <?php
 
-if ( ! isset($CFG) ) return; // Only from within tsugi.php
+require_once "../../../../config.php";
 
 use \Tsugi\Core\LTIX;
 use \Tsugi\UI\Output;

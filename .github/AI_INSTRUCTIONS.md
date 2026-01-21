@@ -17,46 +17,15 @@ https://www.imsglobal.org/spec/lti-nrps/v2p0
 https://www.imsglobal.org/spec/lti-dl/v2p0
 AI tools should not “invent” or “improvise” around these specs.
 
-The vendor folder
------------------
-
-The folder `vendor` is weird.  Tsugi keeps all of its dependencies in this repo in order
-to avoid instabilities in the composer ecosystem.  We want every Tsugi instance to be running
-the *exact same dependencies* and we want to tag and upgrade them together with upgrades
-related to new versions of PHP.
-
-Most of the folder `vendor` is ignored except for the `vendor/tsugi` folder.  This is a copy of
-the code in https://github.com/tsugiproject/tsugi-php - To test changes to `tsugi-php` you simply edit
-the code in `vendor/tsugi`, test it and then move the changes into the `tsugi-php` repo.
-
-JQuery
-------
-
-While the existing code base uses and depends on jQuery a lot, new code should avoid using jQuery and prefer
-vanilla JavaScript.  We look for any opportunity to move towards vanilla JS.  We could even add routines
-in tsugiscripts.js to support vanilla JS use cases to avoind a lot of boilerplate spread all around?
-
-Bootstrap
----------
-
-Please use Bootstrap wherever possible, forms, modals, etc.  Bootstrap is the CSS language of Tsugi
-and included in every page.  Tsugi uses Bootstrap 3.x. All UI contributions should follow Bootstrap 3 patterns.
-You can check the current bootstrap version looking at the way headers are generated in Output.php.
-
-Fontawesome
------------
-
-Fontawesome is our primary icon library but only through version 5 - the last 100% free version.
-
 New versions of PHP
 -------------------
 
 New releases of PHP can be really painful for Tsugi.   They are slowly removing language features
 to improve performacne over time - which means each new release things that worked for 10 years
-get deprecated and all of a sunnen running Tsugi on a new version of PHP spews lots of non-fatal
-warning codes in the end-users's UI :( - so with each new release like 7.4, 8.0, 8.1, 8..2, 8.3
-(and soon 8.4) it is a major effort and it is at this point where we advance dependcies
-in the `packages.json` and re-do the `vendor` folder.  This "new version of PHP" is usually done
+get deprecated and all of a sudden running Tsugi on a new version of PHP spews lots of non-fatal
+warning codes in the end-users's UI :( - so with each new release like 7.4, 8.0, 8.1, 8.2, 8.3
+(and soon 8.4) it is a major effort and it is at this point where we advance dependencies
+in the `packages.json`.  This "new version of PHP" is usually done
 in the summer after the new version has been out for a while and the underlying dependencies
 have ahad a chance to release new versions.
 

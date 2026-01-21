@@ -1,6 +1,7 @@
 <?php
 
-if ( ! isset($CFG) ) return; // Only from within tsugi.php
+require_once "../../../../config.php";
+require_once $CFG->dirroot."/lib/include/lms_lib.php";
 
 use \Tsugi\Core\LTIX;
 

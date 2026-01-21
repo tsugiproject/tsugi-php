@@ -1,8 +1,13 @@
 <?php
 
-if ( ! isset($CFG) ) return; // Only from within tsugi.php
+if ( isset($_GET[session_name()]) ) {
+    $cookie = false;
+} else {
+    define('COOKIE_SESSION', true);
+    $cookie = true;
+}
 
-$cookie = defined('COOKIE_SESSION');
+require_once "../../../../config.php";
 
 $retval = \Tsugi\UI\Output::handleHeartBeat($cookie);
 

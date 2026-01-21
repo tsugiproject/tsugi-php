@@ -1,59 +1,38 @@
 {
+    "name": "tsugi/lib",
+    "description": "The PHP Library to build interoperable learning tools",
+    "homepage": "http://www.tsugi.org/",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+    {
+        "name": "csev",
+        "email": "drchuck@gmail.com",
+        "homepage": "http://www.dr-chuck.com/",
+        "role": "Developer"
+    }
+    ],
+    "autoload": {
+        "psr-4": {"Tsugi\\": "src/"},
+        "exclude-from-classmap": [
+            "/tests/",
+            "phpdoc.dist.xml",
+            "phpunit.xml.dist"
+        ]
+    },
     "require": {
         "php": ">=8.4.0",
-        "phpseclib/phpseclib": "v3.0.43",
+        "phpseclib/phpseclib": "3.0.43",
         "laravel/lumen-framework": "v11.2.0",
         "firebase/php-jwt" : "v6.11.1",
-        "ezyang/htmlpurifier": "v4.18.0",
+        "ezyang/htmlpurifier": "v4.18.0"
 
-        "google/auth": ">=v1.47.0",
-        "google/apiclient": ">=v2.18.3",
-        "google/apiclient-services": ">=v0.396.0",
-
-        "nesbot/carbon" : ">=v3.9.1",
-
-        "symfony/routing" : ">=7.2.3",
-        "symfony/http-foundation" : ">=7.3.7",
-        "monolog/monolog" : ">=3.9.0",
-        "symfony/translation" : ">=7.3.7",
-        "symfony/browser-kit" : ">=7.2.4",
-        "symfony/http-client" : ">=7.2.4",
-        "symfony/http-kernel" : ">=7.3.7",
-        "symfony/deprecation-contracts": ">=3.5.1",
-        "symfony/polyfill-intl-idn": ">=1.32.0",
-        "symfony/polyfill-intl-normalizer": ">=1.32.0",
-        "symfony/polyfill-mbstring": ">=1.32.0",
-        "symfony/polyfill-php72": ">=1.31.0",
-        "psr/http-client": ">=1.0.3",
-
-        "guzzlehttp/psr7" : ">=2.7.1",
-        "guzzlehttp/guzzle": ">=7.9.3",
-        "guzzlehttp/promises": ">=2.2.0",
-
-        "react/event-loop" : ">=1.5.0",
-        "react/stream" : ">=1.3.0",
-        "react/promise-timer" : ">=1.11.0",
-        "react/dns" : ">=1.13.0",
-        "react/socket" : ">=1.16.0",
-
-        "tsugi/lib": "dev-master#49b2107797f2936631739ccef847405b3d26a27a"
-    },
-    "autoload": {
-      "psr-4": {
-        "Koseu\\": "koseu/src/"
-      }
-    },
-    "config": {
-        "preferred-install": "dist"
-    },
-    "scripts": {
-        "lint": "php -l index.php && php -l login.php && php -l logout.php && php -l top.php && php -l tsugi.php && php -l about.php && find admin api assertions cc cron dev ext gclass lms lti mod settings store util -name '*.php' -print0 | xargs -0 -n 1 php -l",
-        "phpstan": "phpstan analyse -c phpstan.neon --memory-limit=1G --no-progress"
     },
     "require-dev": {
-        "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^11.0",
-        "symfony/panther": "^2.1",
-        "dbrekelmans/bdi": "^1.4"
+        "phpunit/phpunit": "9.*",
+        "phpunit/php-timer": "v5.0.3"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit tests --bootstrap vendor/autoload.php"
     }
 }
